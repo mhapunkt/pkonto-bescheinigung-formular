@@ -10,7 +10,7 @@ Interaktive, browserbasierte Ausfüllhilfe für die **Bescheinigung nach § 903 
 - Rechnet den **monatlichen Gesamtfreibetrag** und den **einmaligen Freibetrag** automatisch aus den angehakten Positionen zusammen.
 - Grundfreibetrag und Erhöhungsbeträge (§ 899, § 902 ZPO) sind als editierbare Felder hinterlegt (Stand 01.07.2024: 1.500,00 € / 561,43 € / 312,78 €) – da sich diese Beträge jährlich zum 01.07. ändern, bitte vor Gebrauch mit dem aktuellen Wert abgleichen und ggf. anpassen.
 - Alle Eingaben werden **ausschließlich lokal im Browser** (`localStorage`) zwischengespeichert. Es gibt kein Backend, keine Datenbank und keine Übertragung an einen Server – die Seite ist eine reine statische HTML-Datei.
-- Druckansicht / "Als PDF speichern" über den Browser-Druckdialog, inkl. Unterschriftszeile.
+- **Amtliche Ansicht / Druckausgabe:** Der Button "Amtliche Ansicht" zeigt eine originalgetreue Nachbildung des amtlichen Formulars (gleiche Abschnitte I–V, Kästchen, Spaltenaufteilung, Fußzeile) an; beim Drucken bzw. "Als PDF speichern" wird immer automatisch diese amtliche Ansicht ausgegeben, unabhängig von der aktuell angezeigten Ansicht.
 
 ## Nutzung
 
