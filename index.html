@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>P-Konto-Bescheinigung – Online-Formular</title>
+<style>
+  :root{
+    --orange:#FF5900;
+    --gold:#EFBB20;
+    --ink:#1a1a1a;
+    --line:#c9c9c9;
+    --bg:#f4f4f2;
+    --panel:#ffffff;
+    --panel-head:#fafafa;
+    --muted:#6b6b6b;
+    --focus:#FF5900;
+    --danger:#c0392b;
+    --header-bg:#111111;
+    --header-fg:#ffffff;
+    --header-border:#3a3a3a;
+    --input-bg:#ffffff;
+    --input-fg:#1a1a1a;
+    --input-border:#c9c9c9;
+    --input-readonly-bg:#eeeeec;
+    --totalbar-bg:#111111;
+    --totalbar-fg:#ffffff;
+    --notice-bg:#fff8e8;
+    --notice-border:#EFBB20;
+    --notice-fg:#5a4600;
+    --notice-strong:#3a2e00;
+    --rate-bg:#fff4ea;
+    --sign-color:#6b6b6b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#ececeb;
+      --line:#3a3a38;
+      --bg:#17171a;
+      --panel:#1f2023;
+      --panel-head:#26272b;
+      --muted:#9a9a97;
+      --focus:#FF7A33;
+      --danger:#ff7369;
+      --header-bg:#0b0b0c;
+      --header-fg:#f2f2f0;
+      --header-border:#2c2c2e;
+      --input-bg:#141416;
+      --input-fg:#ececeb;
+      --input-border:#45454a;
+      --input-readonly-bg:#2a2a2d;
+      --totalbar-bg:#0b0b0c;
+      --totalbar-fg:#f6d98a;
+      --notice-bg:#2c2412;
+      --notice-border:#EFBB20;
+      --notice-fg:#e8d18f;
+      --notice-strong:#f6e6ad;
+      --rate-bg:#2b2013;
+      --sign-color:#9a9a97;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#ececeb;
+    --line:#3a3a38;
+    --bg:#17171a;
+    --panel:#1f2023;
+    --panel-head:#26272b;
+    --muted:#9a9a97;
+    --focus:#FF7A33;
+    --danger:#ff7369;
+    --header-bg:#0b0b0c;
+    --header-fg:#f2f2f0;
+    --header-border:#2c2c2e;
+    --input-bg:#141416;
+    --input-fg:#ececeb;
+    --input-border:#45454a;
+    --input-readonly-bg:#2a2a2d;
+    --totalbar-bg:#0b0b0c;
+    --totalbar-fg:#f6d98a;
+    --notice-bg:#2c2412;
+    --notice-border:#EFBB20;
+    --notice-fg:#e8d18f;
+    --notice-strong:#f6e6ad;
+    --rate-bg:#2b2013;
+    --sign-color:#9a9a97;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.4;
+  }
+  header.top{
+    background:var(--header-bg);
+    color:var(--header-fg);
+    border-bottom:1px solid var(--header-border);
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  header.top .brand{
+    font-size:1.05rem;
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+  header.top .brand span{color:var(--orange);}
+  header.top .actions{display:flex;gap:8px;flex-wrap:wrap;}
+  button, .btn{
+    font-family:inherit;
+    font-size:.85rem;
+    padding:9px 16px;
+    border-radius:6px;
+    border:1px solid var(--orange);
+    background:var(--orange);
+    color:#ffffff;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.secondary{
+    background:transparent;
+    color:var(--header-fg);
+    border:1px solid #6b6b6b;
+  }
+  button.secondary:hover{border-color:var(--header-fg);}
+  button:hover{filter:brightness(1.08);}
+  button.danger{background:var(--danger);border-color:var(--danger);}
+
+  main{
+    max-width:980px;
+    margin:24px auto 60px;
+    padding:0 16px;
+  }
+  .titleblock{
+    text-align:center;
+    padding:18px 10px 22px;
+  }
+  .titleblock h1{
+    font-size:1.3rem;
+    margin:0 0 4px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+  .titleblock p{
+    margin:2px 0;
+    font-size:.85rem;
+    color:var(--muted);
+  }
+  .notice{
+    background:var(--notice-bg);
+    border:1px solid var(--notice-border);
+    border-radius:8px;
+    padding:12px 16px;
+    font-size:.82rem;
+    color:var(--notice-fg);
+    margin-bottom:18px;
+  }
+  .notice strong{color:var(--notice-strong);}
+  .notice a{color:var(--notice-strong);}
+
+  .section{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .section > .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    background:var(--panel-head);
+    border-bottom:1px solid var(--line);
+    padding:12px 18px;
+  }
+  .sec-head .num{
+    font-weight:700;
+    color:var(--orange);
+    font-size:1rem;
+    min-width:22px;
+  }
+  .sec-head h2{
+    font-size:.95rem;
+    margin:0;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .sec-body{padding:16px 18px 18px;}
+
+  .row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    margin-bottom:12px;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    flex:1 1 220px;
+  }
+  .field.narrow{flex:0 1 140px;}
+  .field.wide{flex:2 1 320px;}
+  label{
+    font-size:.75rem;
+    font-weight:600;
+    color:var(--muted);
+  }
+  input[type=text], input[type=date], input[type=number], input[type=month]{
+    padding:8px 10px;
+    border:1px solid var(--input-border);
+    border-radius:6px;
+    font-size:.9rem;
+    font-family:inherit;
+    width:100%;
+    background:var(--input-bg);
+    color:var(--input-fg);
+  }
+  input:focus, textarea:focus{
+    outline:2px solid var(--focus);
+    outline-offset:1px;
+  }
+  input[readonly]{
+    background:var(--input-readonly-bg);
+    color:var(--ink);
+    font-weight:700;
+  }
+
+  .amount-line{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .amount-line:last-child{border-bottom:none;}
+  .amount-line .chk{
+    padding-top:3px;
+  }
+  .amount-line input[type=checkbox]{
+    width:18px;height:18px;accent-color:var(--orange);cursor:pointer;
+  }
+  .amount-line .desc{
+    flex:1 1 auto;
+    font-size:.85rem;
+  }
+  .amount-line .desc .law{
+    color:var(--muted);
+    font-size:.78rem;
+  }
+  .amount-line .amt{
+    flex:0 0 140px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .amount-line .amt input{
+    text-align:right;
+  }
+  .amount-line .amt .eur{font-size:.85rem;color:var(--muted);}
+  .subchoice{
+    margin-top:6px;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    font-size:.8rem;
+    color:var(--ink);
+  }
+  .subchoice label{
+    font-weight:400;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .subchoice input[type=radio]{accent-color:var(--orange);}
+
+  .rate-editable{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    background:var(--rate-bg);
+    border:1px solid var(--orange);
+    border-radius:5px;
+    padding:2px 6px;
+  }
+  .rate-editable input{
+    border:none;
+    width:80px;
+    padding:2px 4px;
+    text-align:right;
+    background:transparent;
+    color:var(--input-fg);
+    font-weight:700;
+  }
+  .rate-editable input:focus{outline:none;}
+  .rate-hint{font-size:.7rem;color:var(--muted);display:block;margin-top:2px;}
+
+  .checkline{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:.85rem;
+  }
+  .checkline input{accent-color:var(--orange);width:16px;height:16px;}
+
+  .checks-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-top:6px;
+  }
+
+  .kids-table{width:100%;border-collapse:collapse;margin-top:4px;}
+  .kids-table th{
+    text-align:left;
+    font-size:.72rem;
+    color:var(--muted);
+    padding:4px 6px;
+    border-bottom:1px solid var(--line);
+  }
+  .kids-table td{padding:4px 6px;vertical-align:middle;}
+  .kids-table input{padding:6px 8px;font-size:.85rem;}
+  .kids-table input[type=checkbox]{width:16px;height:16px;accent-color:var(--orange);}
+  .kids-table .kmonat{width:70px;}
+  .kids-table .kjahr{width:80px;}
+  .kids-table .kbetrag{width:110px;text-align:right;}
+
+  .totalbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--totalbar-bg);
+    color:var(--totalbar-fg);
+    padding:14px 18px;
+    border-radius:8px;
+    margin-top:10px;
+    font-size:.95rem;
+  }
+  .totalbar strong{
+    font-size:1.3rem;
+    color:var(--gold);
+  }
+  .totalbar.small{padding:10px 18px;font-size:.85rem;}
+  .totalbar.small strong{font-size:1.05rem;}
+
+  .sign-row{
+    display:flex;
+    justify-content:space-between;
+    gap:24px;
+    margin-top:20px;
+    padding-top:14px;
+  }
+  .sign-box{flex:1;}
+  .sign-line{
+    border-top:1px solid var(--line);
+    margin-top:46px;
+    padding-top:4px;
+    font-size:.75rem;
+    color:var(--sign-color);
+    text-align:center;
+  }
+
+  footer.page{
+    text-align:center;
+    font-size:.72rem;
+    color:var(--muted);
+    padding:30px 16px 10px;
+  }
+  footer.page a{color:var(--orange);}
+
+  .save-indicator{
+    font-size:.72rem;
+    color:#8fd18f;
+    min-width:130px;
+    text-align:right;
+  }
+
+  @media (max-width: 640px){
+    header.top{flex-direction:column;align-items:flex-start;}
+    .totalbar{flex-direction:column;align-items:flex-start;gap:6px;}
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print{
+    body{background:#fff;}
+    header.top, .no-print, .notice, .save-indicator{display:none !important;}
+    main{max-width:100%;margin:0;padding:0;}
+    .section{border:1px solid #000;border-radius:0;box-shadow:none;break-inside:avoid;margin-bottom:8px;}
+    .sec-head{background:#eee;}
+    input[readonly]{background:#eee;}
+    input, .rate-editable{border-color:#000 !important;}
+    .totalbar{background:#eee !important;color:#000 !important;}
+    .totalbar strong{color:#000 !important;}
+    a[href]:after{content:"";}
+    .titleblock p.subtitle-print{display:block;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top no-print">
+  <div class="brand">MH <span>Anwälte</span> — P-Konto-Bescheinigung</div>
+  <div class="actions">
+    <span class="save-indicator" id="saveIndicator"></span>
+    <button type="button" class="secondary" id="btnFillDate">Heutiges Datum</button>
+    <button type="button" class="secondary" id="btnClear">Formular leeren</button>
+    <button type="button" id="btnPrint">Drucken / als PDF speichern</button>
+  </div>
+</header>
+
+<main>
+
+  <div class="titleblock">
+    <h1>Bescheinigung</h1>
+    <p>nach § 903 Abs. 1 ZPO über die gemäß §§ 902 und 904 ZPO von der Pfändung nicht erfassten Beträge auf einem Pfändungsschutzkonto</p>
+    <p class="subtitle-print">Arbeitsgemeinschaft Schuldnerberatung der Verbände (AG SBV) vom 21.09.2021, in Absprache mit der Deutschen Kreditwirtschaft (DK)</p>
+  </div>
+
+  <div class="notice no-print">
+    <strong>Hinweis:</strong> Die Grundbeträge (Grundfreibetrag, Erhöhungsbeträge) werden jährlich zum 01.07. gesetzlich angepasst.
+    Diese Seite ist mit dem Stand vom 01.07.2024 vorbelegt — die orange hinterlegten Beträge in Abschnitt III sind editierbar und sollten vor Gebrauch mit dem aktuell gültigen Wert (z. B. laut
+    <a href="https://www.gesetze-im-internet.de/zpo/__850c.html" target="_blank" rel="noopener">§ 850c ZPO</a> bzw. der aktuellen Bekanntmachung) abgeglichen werden.
+    Alle Eingaben bleiben ausschließlich lokal in diesem Browser gespeichert (Zwischenspeicherung) — es werden keine Daten an einen Server übertragen.
+  </div>
+
+  <!-- SECTION I -->
+  <div class="section">
+    <div class="sec-head"><span class="num">I.</span><h2>Bezeichnung der bescheinigenden Person oder Stelle (§ 903 Abs. 1 Satz 2 ZPO)</h2></div>
+    <div class="sec-body">
+      <div class="row">
+        <div class="field wide"><label>Name</label><input type="text" id="i_name"></div>
+        <div class="field wide"><label>Straße</label><input type="text" id="i_strasse"></div>
+        <div class="field narrow"><label>Hausnummer</label><input type="text" id="i_hausnr"></div>
+      </div>
+      <div class="row">
+        <div class="field narrow"><label>Postleitzahl</label><input type="text" id="i_plz"></div>
+        <div class="field wide"><label>Ort</label><input type="text" id="i_ort"></div>
+        <div class="field wide"><label>Ansprechpartner:in</label><input type="text" id="i_ansprechpartner"></div>
+      </div>
+
+      <div class="row" style="margin-top:6px;">
+        <div class="field">
+          <label>Die Bescheinigung wird erteilt als</label>
+          <div class="checks-grid">
+            <label class="checkline"><input type="checkbox" id="i_geeignete_person"> geeignete Person gem. § 305 Abs. 1 Nr. 1 InsO</label>
+            <label class="checkline"><input type="checkbox" id="i_geeignete_stelle"> geeignete Stelle gem. § 305 Abs. 1 Nr. 1 InsO</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field wide"><label>Anerkennende Behörde / Gericht</label><input type="text" id="i_behoerde"></div>
+        <div class="field narrow"><label>Datum des Bescheids</label><input type="date" id="i_bescheid_datum"></div>
+        <div class="field"><label>Aktenzeichen</label><input type="text" id="i_aktenzeichen"></div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Weitere Bezeichnung als</label>
+          <div class="checks-grid">
+            <label class="checkline"><input type="checkbox" id="i_arbeitgeber"> Arbeitgeber</label>
+            <label class="checkline"><input type="checkbox" id="i_sozialleistungstraeger"> Sozialleistungsträger</label>
+            <label class="checkline"><input type="checkbox" id="i_sonstiger_leistungstraeger"> sonstiger Leistungsträger (§ 902 ZPO)</label>
+            <label class="checkline"><input type="checkbox" id="i_familienkasse"> Familienkasse</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION II -->
+  <div class="section">
+    <div class="sec-head"><span class="num">II.</span><h2>Angaben zum Kontoinhaber und Pfändungsschutzkonto</h2></div>
+    <div class="sec-body">
+      <div class="row">
+        <div class="field wide"><label>Kontoinhaber:in</label><input type="text" id="ii_name"></div>
+        <div class="field narrow"><label>Geburtsdatum</label><input type="date" id="ii_geburtsdatum"></div>
+      </div>
+      <div class="row">
+        <div class="field wide"><label>Anschrift</label><input type="text" id="ii_anschrift"></div>
+      </div>
+      <div class="row">
+        <div class="field wide"><label>Kreditinstitut</label><input type="text" id="ii_kreditinstitut"></div>
+        <div class="field wide"><label>Kontonummer oder IBAN</label><input type="text" id="ii_iban"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION III -->
+  <div class="section">
+    <div class="sec-head"><span class="num">III.</span><h2>Ermittlung des pfändungsfreien Betrages</h2></div>
+    <div class="sec-body">
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iii_grund_chk" checked></div>
+        <div class="desc">
+          Grundfreibetrag des Schuldners (= Kontoinhaber) derzeit<sup>1</sup>
+          <div class="law">§ 899 Abs. 1 ZPO iVm § 850c Abs. 1 iVm Abs. 4 ZPO</div>
+        </div>
+        <div class="amt">
+          <span class="rate-editable"><input type="number" step="0.01" id="iii_grund_rate" value="1500.00"><span class="eur">€</span></span>
+        </div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iii_erhoehung1_chk"></div>
+        <div class="desc">
+          Erhöhungsbetrag für die erste Person derzeit<sup>1</sup>, der
+          <div class="subchoice">
+            <label><input type="radio" name="iii_erhoehung1_grund" value="a"> a) aufgrund gesetzlicher Verpflichtung Unterhalt gewährt wird, oder</label>
+            <label><input type="radio" name="iii_erhoehung1_grund" value="b"> b) für die der Schuldner Geldleistungen nach SGB II/XII entgegennimmt, oder</label>
+            <label><input type="radio" name="iii_erhoehung1_grund" value="c"> c) Geldleistungen nach dem AsylbLG entgegennimmt</label>
+          </div>
+          <div class="law">§ 902 S. 1 Nr. 1 a–c ZPO</div>
+        </div>
+        <div class="amt">
+          <span class="rate-editable"><input type="number" step="0.01" id="iii_erhoehung1_rate" value="561.43"><span class="eur">€</span></span>
+        </div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iii_erhoehungN_chk"></div>
+        <div class="desc">
+          Erhöhungsbetrag für
+          <select id="iii_erhoehungN_anzahl" style="padding:4px 6px;border-radius:5px;border:1px solid var(--input-border);background:var(--input-bg);color:var(--input-fg);font-family:inherit;">
+            <option value="1">eine</option>
+            <option value="2">zwei</option>
+            <option value="3">drei</option>
+            <option value="4">vier</option>
+          </select>
+          weitere Person(en) derzeit<sup>1</sup>, je
+          <div class="subchoice">
+            <label><input type="radio" name="iii_erhoehungN_grund" value="a"> a) aufgrund gesetzlicher Verpflichtung Unterhalt gewährt wird, oder</label>
+            <label><input type="radio" name="iii_erhoehungN_grund" value="b"> b) für die der Schuldner Geldleistungen nach SGB II/XII entgegennimmt, oder</label>
+            <label><input type="radio" name="iii_erhoehungN_grund" value="c"> c) dem Asylbewerberleistungsgesetz entgegennimmt</label>
+          </div>
+          <div class="law">§ 902 S. 1 Nr. 1 a–c ZPO</div>
+        </div>
+        <div class="amt">
+          <span class="rate-editable"><input type="number" step="0.01" id="iii_erhoehungN_rate" value="312.78"><span class="eur">€ / Person</span></span>
+        </div>
+      </div>
+      <div style="text-align:right;"><span class="rate-hint">Beträge derzeit lt. Stand 01.07.2024 — jährliche Anpassung zum 01.07. beachten, Werte bei Bedarf anpassen.</span></div>
+
+      <div class="totalbar small" style="margin-top:14px;">
+        <span>Zwischensumme Abschnitt III</span>
+        <strong id="sum_iii">0,00 €</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION IV -->
+  <div class="section">
+    <div class="sec-head"><span class="num">IV.</span><h2>Weitere laufende monatliche Geldleistungen</h2></div>
+    <div class="sec-body">
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iv_sgb_chk"></div>
+        <div class="desc">Laufende Geldleistungen, die dem Schuldner selbst gem. SGB II, XII oder AsylbLG gewährt werden und den Grundfreibetrag übersteigen
+          <div class="law">§ 902 S. 1 Nr. 4 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="iv_sgb_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iv_mehraufwand_chk"></div>
+        <div class="desc">Laufende Geldleistungen zum Ausgleich des durch einen Körper- oder Gesundheitsschaden bedingten Mehraufwandes
+          <div class="law">§ 902 S. 1 Nr. 2 ZPO iVm § 54 Abs. 3 Nr. 3 SGB I</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="iv_mehraufwand_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iv_unpfaendbar_chk"></div>
+        <div class="desc">Laufende Geldleistungen für den Schuldner selbst nach landes- und bundesrechtlichen Vorschriften, die unpfändbar sind
+          <div class="law">§ 902 S. 1 Nr. 6 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="iv_unpfaendbar_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line" style="flex-direction:column;">
+        <div style="display:flex;gap:12px;align-items:flex-start;width:100%;">
+          <div class="chk"><input type="checkbox" id="iv_kg_chk"></div>
+          <div class="desc" style="flex:1;">Kindergeld für <span class="law">(§ 902 S. 1 Nr. 5 ZPO)<sup>2</sup></span></div>
+        </div>
+        <table class="kids-table" style="margin-left:30px;width:calc(100% - 30px);">
+          <thead><tr><th></th><th>Kind</th><th>Geburtsmonat/-jahr</th><th>Betrag</th></tr></thead>
+          <tbody id="kidsBody"></tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td colspan="2" style="font-size:.8rem;color:var(--muted);">weitere Kinder (Anzahl)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="number" min="0" id="iv_kg_weitere_anzahl" value="0" style="width:70px;"></td>
+              <td style="font-size:.8rem;color:var(--muted);">Betrag insgesamt für weitere Kinder</td>
+              <td><input type="number" step="0.01" id="iv_kg_weitere_betrag" value="0" class="kbetrag"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="iv_andere_kg_chk"></div>
+        <div class="desc">Andere gesetzliche Geldleistung(en) für Kinder – z. B. Kinderzuschlag und vergleichbare Rentenbestandteile
+          <div class="law">§ 902 S. 1 Nr. 5 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="iv_andere_kg_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="totalbar" style="margin-top:16px;">
+        <span>Monatlicher Gesamtfreibetrag (Abschnitt III + IV)</span>
+        <strong id="sum_total_monatlich">0,00 €</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION V -->
+  <div class="section">
+    <div class="sec-head"><span class="num">V.</span><h2>Ermittlung des einmaligen Freibetrags</h2></div>
+    <div class="sec-body">
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="v_sozial_chk"></div>
+        <div class="desc">Einmalige Sozialleistungen
+          <div class="law">§ 902 S. 1 Nr. 2 iVm § 54 Abs. 2 SGB I</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="v_sozial_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="v_landesrecht_chk"></div>
+        <div class="desc">Einmalige Geldleistungen für den Schuldner selbst nach landes- oder bundesrechtlichen Vorschriften
+          <div class="law">§ 902 S. 1 Nr. 2 und Nr. 6 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="v_landesrecht_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="v_nachzahlung_laufend_chk"></div>
+        <div class="desc">Nachzahlung laufender Geldleistungen (SGB II/XII, AsylbLG, Kindergeld, andere Geldleistungen für Kinder, landes-/bundesrechtliche Leistungen) – Einmalbetrag
+          <div class="law">§ 904 Abs. 4 iVm Abs. 1 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="v_nachzahlung_laufend_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="v_nachzahlung_sonstige_chk"></div>
+        <div class="desc">Nachzahlung sonstiger laufender Geldleistungen nach dem SGB oder Arbeitseinkommen bis 500 € Nachzahlbetrag – Einmalbetrag
+          <div class="law">§ 904 Abs. 4 iVm Abs. 2 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="v_nachzahlung_sonstige_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="amount-line">
+        <div class="chk"><input type="checkbox" id="v_mutter_kind_chk"></div>
+        <div class="desc">Geldleistungen der Stiftung „Mutter und Kind – Schutz des ungeborenen Lebens“
+          <div class="law">§ 902 S. 1 Nr. 3 ZPO</div>
+        </div>
+        <div class="amt"><input type="number" step="0.01" id="v_mutter_kind_amt" value="0"><span class="eur">€</span></div>
+      </div>
+
+      <div class="totalbar" style="margin-top:16px;">
+        <span>Summe einmaliger Freibetrag</span>
+        <strong id="sum_v">0,00 €</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-body">
+      <div class="row">
+        <div class="field narrow"><label>Ort</label><input type="text" id="f_ort"></div>
+        <div class="field narrow"><label>Datum</label><input type="date" id="f_datum"></div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-line">Ort, Datum</div></div>
+        <div class="sign-box"><div class="sign-line">Unterschrift / Stempel der bescheinigenden Person oder Stelle</div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="page">
+    <p><sup>1</sup> die Freibeträge werden jährlich zum 01.07. angepasst · <sup>2</sup> bei jedem Kind ist Geburtsmonat und -jahr einzutragen</p>
+    <p>Auf Basis der Musterbescheinigung der Arbeitsgemeinschaft Schuldnerberatung der Verbände (AG SBV) vom 21.09.2021, in Absprache mit der Deutschen Kreditwirtschaft (DK) — Stand der Vorlage: 01.07.2024.
+      Die Musterbescheinigung steht unter einer <a href="https://creativecommons.org/licenses/by-nd/3.0/de/" target="_blank" rel="noopener">CC BY-ND 3.0 DE Lizenz</a>. Diese Seite ist eine unabhängig programmierte, interaktive Ausfüllhilfe auf Grundlage der darin definierten gesetzlichen Positionen (§§ 902, 903, 904 ZPO) für den internen Gebrauch bei MH Anwälte.</p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  const KIDS_COUNT = 5;
+  const kidsBody = document.getElementById('kidsBody');
+  for(let i=1;i<=KIDS_COUNT;i++){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" id="kid${i}_chk"></td>
+      <td>Kind ${i}</td>
+      <td><input type="month" id="kid${i}_geburt" class="kmonat"></td>
+      <td><input type="number" step="0.01" id="kid${i}_betrag" value="0" class="kbetrag"></td>
+    `;
+    kidsBody.appendChild(tr);
+  }
+
+  const fmt = (n) => n.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  const num = (el) => { const v = parseFloat((el && el.value || '0').toString().replace(',','.')); return isNaN(v) ? 0 : v; };
+
+  function val(id){ return document.getElementById(id); }
+
+  function calc(){
+    // Section III
+    let sumIII = 0;
+    if(val('iii_grund_chk').checked) sumIII += num(val('iii_grund_rate'));
+    if(val('iii_erhoehung1_chk').checked) sumIII += num(val('iii_erhoehung1_rate'));
+    if(val('iii_erhoehungN_chk').checked){
+      const n = parseInt(val('iii_erhoehungN_anzahl').value, 10) || 0;
+      sumIII += n * num(val('iii_erhoehungN_rate'));
+    }
+    document.getElementById('sum_iii').textContent = fmt(sumIII);
+
+    // Section IV
+    let sumIV = 0;
+    if(val('iv_sgb_chk').checked) sumIV += num(val('iv_sgb_amt'));
+    if(val('iv_mehraufwand_chk').checked) sumIV += num(val('iv_mehraufwand_amt'));
+    if(val('iv_unpfaendbar_chk').checked) sumIV += num(val('iv_unpfaendbar_amt'));
+    if(val('iv_kg_chk').checked){
+      for(let i=1;i<=KIDS_COUNT;i++){
+        if(val('kid'+i+'_chk').checked) sumIV += num(val('kid'+i+'_betrag'));
+      }
+      sumIV += num(val('iv_kg_weitere_betrag'));
+    }
+    if(val('iv_andere_kg_chk').checked) sumIV += num(val('iv_andere_kg_amt'));
+
+    document.getElementById('sum_total_monatlich').textContent = fmt(sumIII + sumIV);
+
+    // Section V
+    let sumV = 0;
+    ['v_sozial','v_landesrecht','v_nachzahlung_laufend','v_nachzahlung_sonstige','v_mutter_kind'].forEach(prefix=>{
+      if(val(prefix+'_chk').checked) sumV += num(val(prefix+'_amt'));
+    });
+    document.getElementById('sum_v').textContent = fmt(sumV);
+  }
+
+  // ---- persistence (localStorage, purely local to this browser) ----
+  const STORAGE_KEY = 'pkonto-bescheinigung-v1';
+  function collectableInputs(){
+    return Array.from(document.querySelectorAll('main input, main select'));
+  }
+  let saveTimer = null;
+  const indicator = document.getElementById('saveIndicator');
+
+  function save(){
+    const data = {};
+    collectableInputs().forEach(el=>{
+      if(!el.id && !el.name) return;
+      const key = el.id || ('radio:'+el.name+':'+el.value);
+      if(el.type === 'checkbox') data[key] = el.checked;
+      else if(el.type === 'radio') { if(el.checked) data['radio:'+el.name] = el.value; }
+      else data[key] = el.value;
+    });
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      if(indicator){
+        indicator.textContent = 'Gespeichert (lokal) ' + new Date().toLocaleTimeString('de-DE');
+      }
+    }catch(e){ /* storage unavailable — ignore silently */ }
+  }
+
+  function load(){
+    let data;
+    try{ data = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); }catch(e){ data = null; }
+    if(!data) return;
+    collectableInputs().forEach(el=>{
+      if(el.type === 'checkbox'){
+        if(el.id in data) el.checked = !!data[el.id];
+      } else if(el.type === 'radio'){
+        const k = 'radio:'+el.name;
+        if(k in data) el.checked = (data[k] === el.value);
+      } else if(el.id in data){
+        el.value = data[el.id];
+      }
+    });
+  }
+
+  function scheduleSave(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(save, 400);
+  }
+
+  document.addEventListener('input', function(e){
+    calc();
+    scheduleSave();
+  });
+  document.addEventListener('change', function(e){
+    calc();
+    scheduleSave();
+  });
+
+  document.getElementById('btnFillDate').addEventListener('click', function(){
+    const today = new Date().toISOString().slice(0,10);
+    document.getElementById('f_datum').value = today;
+    calc(); scheduleSave();
+  });
+
+  document.getElementById('btnClear').addEventListener('click', function(){
+    if(!confirm('Wirklich das gesamte Formular leeren? Diese Aktion kann nicht rückgängig gemacht werden.')) return;
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    collectableInputs().forEach(el=>{
+      if(el.type === 'checkbox') el.checked = (el.id === 'iii_grund_chk');
+      else if(el.type === 'radio') el.checked = false;
+      else if(el.type === 'number') el.value = (el.id === 'iii_grund_rate') ? '1500.00' : (el.id === 'iii_erhoehung1_rate') ? '561.43' : (el.id === 'iii_erhoehungN_rate') ? '312.78' : '0';
+      else el.value = '';
+    });
+    calc();
+    if(indicator) indicator.textContent = '';
+  });
+
+  document.getElementById('btnPrint').addEventListener('click', function(){
+    window.print();
+  });
+
+  load();
+  calc();
+})();
+</script>
+
+</body>
+</html>
